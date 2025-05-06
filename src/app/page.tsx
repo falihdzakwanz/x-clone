@@ -4,15 +4,17 @@ import Widgets from "@/components/Widgets";
 
 export default function Home() {
   return (
-    <main>
-      {/* Sidebar */}
-      <Sidebar />
+    <div className="lg:max-w-6xl mx-auto max-h-screen overflow-hidden">
+      <main className="grid grid-cols-9">
+        {/* Sidebar */}
+        <Sidebar />
 
-      {/* Feed */}
-      <Feed />
+        {/* Feed */}
+        <Feed />
 
-      {/* Widget */}
-      <Widgets />
-    </main>
+        {/* Widget */}
+        <Widgets />
+      </main>
+    </div>
   );
 }

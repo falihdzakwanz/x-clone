@@ -14,9 +14,9 @@ import SidebarRow from "./SidebarRow";
 
 function Sidebar() {
   return (
-    <div>
+    <div className="col-span-2 flex flex-col items-center px-4 md:items-start">
       <Image
-        className="h-10 w-10"
+        className="m-3 h-10 w-10"
         src="https://links.papareact.com/drg"
         alt=""
         width={10}
