@@ -7,20 +7,22 @@ import {
   MapPinIcon,
   PhotoIcon,
 } from "@heroicons/react/24/outline";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useState } from "react";
 
 function TweetBox() {
   const [input, setInput] = useState<string>("");
+  const { data: session } = useSession();
 
   return (
     <div className="flex space-x-2 p-5">
       <Image
         className="mt-4 h-14 w-14 object-cover rounded-full"
-        src={"https://links.papareact.com/gll"}
+        src={session?.user.image || "https://links.papareact.com/gll"}
         alt=""
-        width={10}
-        height={10}
+        width={50}
+        height={50}
       />
 
       <div className="flex flex-1 items-center pl-2">
@@ -55,7 +57,7 @@ function TweetBox() {
 
             {/* Tweet Button */}
             <button
-              disabled={!input}
+              disabled={!input || !session}
               className="bg-twitter text-white px-5 py-2 rounded-full font-bold disabled:opacity-40 cursor-pointer disabled:cursor-default"
             >
               Post
