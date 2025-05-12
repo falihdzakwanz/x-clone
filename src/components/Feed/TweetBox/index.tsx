@@ -36,20 +36,20 @@ function TweetBox() {
           <div className="flex items-center">
             {/* Icons */}
             <div className="flex flex-1 space-x-1 text-twitter">
-              <div className="w-10 h-10 hover:bg-twitter/10 rounded-full flex items-center justify-center transition-colors ease-out duration-150">
-                <PhotoIcon className="h-5 w-5 font-bold cursor-pointer" />
+              <div className="w-10 h-10 hover:bg-twitter/10 rounded-full flex items-center justify-center transition-colors ease-out duration-150 cursor-pointer">
+                <PhotoIcon className="h-5 w-5 font-bold" />
               </div>
-              <div className="w-10 h-10 hover:bg-twitter/10 rounded-full flex items-center justify-center transition-colors ease-out duration-150">
-                <GifIcon className="h-5 w-5 font-bold cursor pointer" />
+              <div className="w-10 h-10 hover:bg-twitter/10 rounded-full flex items-center justify-center transition-colors ease-out duration-150 cursor-pointer">
+                <GifIcon className="h-5 w-5 font-bold" />
               </div>
-              <div className="w-10 h-10 hover:bg-twitter/10 rounded-full flex items-center justify-center transition-colors ease-out duration-150">
-                <FaceSmileIcon className="h-5 w-5 font-bold cursor-pointer" />
+              <div className="w-10 h-10 hover:bg-twitter/10 rounded-full flex items-center justify-center transition-colors ease-out duration-150 cursor-pointer">
+                <FaceSmileIcon className="h-5 w-5 font-bold" />
               </div>
-              <div className="w-10 h-10 hover:bg-twitter/10 rounded-full flex items-center justify-center transition-colors ease-out duration-150">
-                <CalendarIcon className="h-5 w-5 font-bold cursor-pointer" />
+              <div className="w-10 h-10 hover:bg-twitter/10 rounded-full flex items-center justify-center transition-colors ease-out duration-150 cursor-pointer">
+                <CalendarIcon className="h-5 w-5 font-bold" />
               </div>
-              <div className="w-10 h-10 hover:bg-twitter/10 rounded-full flex items-center justify-center transition-colors ease-out duration-150">
-                <MapPinIcon className="h-5 w-5 font-bold cursor-pointer" />
+              <div className="w-10 h-10 hover:bg-twitter/10 rounded-full flex items-center justify-center transition-colors ease-out duration-150 cursor-pointer">
+                <MapPinIcon className="h-5 w-5 font-bold" />
               </div>
             </div>
 

@@ -7,21 +7,17 @@ import {
   EnvelopeIcon,
   UserIcon,
   HomeIcon,
-  EllipsisHorizontalCircleIcon
+  EllipsisHorizontalCircleIcon,
 } from "@heroicons/react/24/outline";
-import Image from "next/image";
+import { FaXTwitter } from "react-icons/fa6";
 import SidebarRow from "./SidebarRow";
 
 function Sidebar() {
   return (
     <div className="col-span-2 flex flex-col items-center px-4 md:items-start">
-      <Image
-        className="m-3 h-10 w-10"
-        src="https://links.papareact.com/drg"
-        alt=""
-        width={10}
-        height={10}
-      />
+      <div className="flex max-w-fit items-center space-x-2 px-4 py-3 hover:bg-gray-100 rounded-full cursor-pointer transition-all group">
+        <FaXTwitter size={32} />
+      </div>
       <SidebarRow Icon={HomeIcon} title="Home" />
       <SidebarRow Icon={HashtagIcon} title="Explore" />
       <SidebarRow Icon={BellIcon} title="Notifications" />
