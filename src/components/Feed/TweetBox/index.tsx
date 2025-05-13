@@ -6,6 +6,7 @@ import {
   CalendarIcon,
   FaceSmileIcon,
   GifIcon,
+  GlobeAsiaAustraliaIcon,
   MapPinIcon,
   PhotoIcon,
 } from "@heroicons/react/24/outline";
@@ -20,7 +21,7 @@ interface Props {
 
 function TweetBox({ setTweets }: Props) {
   const [input, setInput] = useState<string>("");
-  const [isPosting, setIsPosting] = useState(false); // Loading state
+  const [isPosting, setIsPosting] = useState(false);
   const { data: session } = useSession();
 
   const postTweet = async () => {
@@ -55,9 +56,7 @@ function TweetBox({ setTweets }: Props) {
       toast.success("Tweet posted successfully!", { id: loadingToast });
     } catch (error) {
       console.error("Error posting tweet:", error);
-      toast.error("Failed to post tweet",
-        { id: loadingToast }
-      );
+      toast.error("Failed to post tweet", { id: loadingToast });
     } finally {
       setIsPosting(false);
     }
@@ -71,9 +70,9 @@ function TweetBox({ setTweets }: Props) {
   };
 
   return (
-    <div className="flex space-x-2 p-5">
+    <div className="flex space-x-2 px-5 py-2">
       <Image
-        className="mt-4 h-14 w-14 object-cover rounded-full"
+        className="mt-2 h-10 w-10 object-cover rounded-full"
         src={session?.user.image || "https://links.papareact.com/gll"}
         alt="User profile"
         width={50}
@@ -87,9 +86,17 @@ function TweetBox({ setTweets }: Props) {
             onChange={(e) => setInput(e.target.value)}
             type="text"
             placeholder="What's happening?"
-            className="h-24 w-full text-xl outline-none placeholder:text-xl"
+            className="h-16 w-full text-xl outline-none placeholder:text-xl placeholder:text-gray-500"
             disabled={isPosting}
           />
+
+          {/* Everyone can reply */}
+          <div className="text-sm text-twitter font-semibold mt-2 mb-3 flex items-center space-x-1 cursor-pointer hover:bg-twitter/10 transition-colors duration-200 max-w-fit p-1 px-2 rounded-full">
+            <GlobeAsiaAustraliaIcon className="h-5 w-5 "/>
+            <span>Everyone can reply</span>
+          </div>
+
+          <div className="border-b border-gray-300 mb-2" />
 
           <div className="flex items-center">
             {/* Icons */}
@@ -115,7 +122,7 @@ function TweetBox({ setTweets }: Props) {
             <button
               onClick={handleSubmit}
               disabled={!input || !session || isPosting}
-              className="bg-twitter text-white px-5 py-2 rounded-full font-bold disabled:opacity-40 cursor-pointer disabled:cursor-default"
+              className="bg-black text-white px-5 py-2 rounded-full font-bold disabled:opacity-40 cursor-pointer disabled:cursor-default"
             >
               {isPosting ? "Posting..." : "Post"}
             </button>

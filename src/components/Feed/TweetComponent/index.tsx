@@ -115,39 +115,64 @@ const TweetComponent = ({ tweet }: Props) => {
         </div>
       </div>
 
-      <div className="flex justify-between mt-5">
+      <div className="flex justify-between mt-3 text-sm text-gray-700">
+        {/* Comment */}
         <div
           onClick={() => session && setCommentBoxVisible(!commentBoxVisible)}
-          className="flex cursor-pointer space-x-3 items-center text-gray-400"
+          className="group flex items-center cursor-pointer space-x-1"
         >
-          <ChatBubbleOvalLeftIcon className="h-5 w-5" />
-          <p>{comments.length}</p>
+          <span className="p-1 rounded-full group-hover:bg-twitter/20 transition">
+            <ChatBubbleOvalLeftIcon className="h-5 w-5" />
+          </span>
+          <p className="group-hover:text-twitter transition">
+            {comments.length}
+          </p>
         </div>
-        <div className="flex cursor-pointer space-x-3 items-center text-gray-400">
-          <ArrowPathRoundedSquareIcon className="h-5 w-5" />
-          <p>1</p>
+
+        {/* Retweet */}
+        <div className="group flex items-center cursor-pointer space-x-1">
+          <span className="p-1 rounded-full group-hover:bg-green-200 transition">
+            <ArrowPathRoundedSquareIcon className="h-5 w-5" />
+          </span>
+          <p className="group-hover:text-green-600 transition">0</p>
         </div>
-        <div className="flex cursor-pointer space-x-3 items-center text-gray-400">
-          <HeartIcon className="h-5 w-5" />
-          <p>1</p>
+
+        {/* Like */}
+        <div className="group flex items-center cursor-pointer space-x-1">
+          <span className="p-1 rounded-full group-hover:bg-pink-200 transition">
+            <HeartIcon className="h-5 w-5" />
+          </span>
+          <p className="group-hover:text-pink-500 transition">0</p>
         </div>
-        <div className="flex cursor-pointer space-x-3 items-center text-gray-400">
-          <ChartBarIcon className="h-5 w-5" />
-          <p>1</p>
+
+        {/* Views */}
+        <div className="group flex items-center cursor-pointer space-x-1">
+          <span className="p-1 rounded-full group-hover:bg-twitter/20 transition">
+            <ChartBarIcon className="h-5 w-5" />
+          </span>
+          <p className="group-hover:text-twitter transition">
+            {comments.length * 2}
+          </p>
         </div>
-        <div className="flex gap-4">
-          <div className="flex cursor-pointer space-x-3 items-center text-gray-400">
-            <BookmarkIcon className="h-5 w-5" />
+
+        {/* Bookmark & Share */}
+        <div className="flex space-x-4">
+          <div className="group flex items-center cursor-pointer">
+            <span className="p-1 rounded-full group-hover:bg-twitter/20 transition">
+              <BookmarkIcon className="h-5 w-5" />
+            </span>
           </div>
-          <div className="flex cursor-pointer space-x-3 items-center text-gray-400">
-            <ArrowUpTrayIcon className="h-5 w-5" />
+          <div className="group flex items-center cursor-pointer">
+            <span className="p-1 rounded-full group-hover:bg-twitter/20 transition">
+              <ArrowUpTrayIcon className="h-5 w-5" />
+            </span>
           </div>
         </div>
       </div>
 
       {/* Comments bar logic */}
       {commentBoxVisible && (
-        <form onSubmit={handleSubmit} className="mt-3 flex space-x-3">
+        <form onSubmit={handleSubmit} className="mt-2 flex space-x-3">
           <input
             type="text"
             placeholder="Post your reply"
@@ -166,7 +191,7 @@ const TweetComponent = ({ tweet }: Props) => {
       )}
 
       {comments.length > 0 && (
-        <div className="my-2 mt-5 max-h-44 space-y-5 overflow-y-scroll border-t border-gray-100 p-5">
+        <div className="my-2 max-h-44 space-y-3 overflow-y-scroll border-t border-gray-100 p-5">
           {comments.map((comment) => (
             <div key={comment._id} className="relative flex space-x-2">
               <hr className="absolute left-5 top-10 h-8 border-x border-twitter/30" />
