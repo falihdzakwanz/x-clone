@@ -18,35 +18,32 @@ function Feed({ tweets: tweetsProp }: Props) {
   const handleRefresh = async () => {
     try {
       const refreshToast = toast.loading("Refreshing...");
-
       const tweets = await fetchTweets();
       setTweets(tweets);
-
-      toast.success("Feed Updated!", {
-        id: refreshToast,
-      });
+      toast.success("Feed Updated!", { id: refreshToast });
     } catch {
       toast.error("Failed to Update Feed!");
     }
   };
 
   return (
-    <div className="col-span-7 lg:col-span-5 border-x">
-      <div className="flex items-center justify-between">
-        <h1 className="p-5 pb-0 text-xl font-bold">Home</h1>
+    <div className="col-span-7 lg:col-span-5 border-x flex flex-col h-screen">
+      {/* Header */}
+      <div className="flex items-center justify-between p-5 border-b sticky top-0 z-10 bg-white">
+        <h1 className="text-xl font-bold">Home</h1>
         <ArrowPathIcon
-          className="mr-5 mt-5 h-8 w-8 cursor-pointer text-twitter transition-all duration-500 ease-out hover:rotate-180 active:scale-125"
+          className="h-8 w-8 cursor-pointer text-twitter transition-all duration-500 ease-out hover:rotate-180 active:scale-125"
           onClick={handleRefresh}
         />
       </div>
 
-      {/* Tweetbox */}
-      <div>
-        <TweetBox />
+      {/* Tweetbox - Fixed Height */}
+      <div className="border-b">
+        <TweetBox setTweets={setTweets} />
       </div>
 
-      {/* Feed */}
-      <div>
+      {/* Feed - Scrollable Area */}
+      <div className="flex-1 overflow-y-auto scroll-smooth">
         {tweets.map((tweet) => (
           <TweetComponent key={tweet._id} tweet={tweet} />
         ))}

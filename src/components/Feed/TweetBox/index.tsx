@@ -1,5 +1,7 @@
 "use client";
 
+import { Tweet, TweetBody } from "@/types/tweet.type";
+import { fetchTweets } from "@/utils/fetchTweets";
 import {
   CalendarIcon,
   FaceSmileIcon,
@@ -9,18 +11,71 @@ import {
 } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { Dispatch, MouseEvent, SetStateAction, useState } from "react";
+import toast from "react-hot-toast";
 
-function TweetBox() {
+interface Props {
+  setTweets: Dispatch<SetStateAction<Tweet[]>>;
+}
+
+function TweetBox({ setTweets }: Props) {
   const [input, setInput] = useState<string>("");
+  const [isPosting, setIsPosting] = useState(false); // Loading state
   const { data: session } = useSession();
+
+  const postTweet = async () => {
+    if (!input.trim() || !session) return;
+
+    setIsPosting(true);
+    const loadingToast = toast.loading("Posting tweet...");
+
+    try {
+      const tweetBody: TweetBody = {
+        text: input,
+        username: session.user?.name || "Anonymous",
+        profileImg: session.user?.image || "https://links.papareact.com/gll",
+      };
+
+      const response = await fetch("/api/tweets", {
+        body: JSON.stringify(tweetBody),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || "Failed to post tweet");
+      }
+
+      const newTweets = await fetchTweets();
+      setTweets(newTweets);
+      setInput("");
+      toast.success("Tweet posted successfully!", { id: loadingToast });
+    } catch (error) {
+      console.error("Error posting tweet:", error);
+      toast.error("Failed to post tweet",
+        { id: loadingToast }
+      );
+    } finally {
+      setIsPosting(false);
+    }
+  };
+
+  const handleSubmit = (
+    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+  ) => {
+    e.preventDefault();
+    postTweet();
+  };
 
   return (
     <div className="flex space-x-2 p-5">
       <Image
         className="mt-4 h-14 w-14 object-cover rounded-full"
         src={session?.user.image || "https://links.papareact.com/gll"}
-        alt=""
+        alt="User profile"
         width={50}
         height={50}
       />
@@ -33,6 +88,7 @@ function TweetBox() {
             type="text"
             placeholder="What's happening?"
             className="h-24 w-full text-xl outline-none placeholder:text-xl"
+            disabled={isPosting}
           />
 
           <div className="flex items-center">
@@ -57,10 +113,11 @@ function TweetBox() {
 
             {/* Tweet Button */}
             <button
-              disabled={!input || !session}
+              onClick={handleSubmit}
+              disabled={!input || !session || isPosting}
               className="bg-twitter text-white px-5 py-2 rounded-full font-bold disabled:opacity-40 cursor-pointer disabled:cursor-default"
             >
-              Post
+              {isPosting ? "Posting..." : "Post"}
             </button>
           </div>
         </form>
