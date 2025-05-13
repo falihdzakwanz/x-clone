@@ -27,7 +27,7 @@ function Feed({ tweets: tweetsProp }: Props) {
   };
 
   return (
-    <div className="col-span-7 lg:col-span-5 border-x flex flex-col h-screen">
+    <div className="col-span-7 lg:col-span-5 border-x flex flex-col max-h-screen overflow-scroll scrollbar-hide">
       {/* Header */}
       <div className="flex items-center justify-between p-5 border-b sticky top-0 z-10 bg-white">
         <h1 className="text-xl font-bold">Home</h1>
@@ -43,7 +43,7 @@ function Feed({ tweets: tweetsProp }: Props) {
       </div>
 
       {/* Feed - Scrollable Area */}
-      <div className="flex-1 overflow-y-auto scroll-smooth">
+      <div>
         {tweets.map((tweet) => (
           <TweetComponent key={tweet._id} tweet={tweet} />
         ))}

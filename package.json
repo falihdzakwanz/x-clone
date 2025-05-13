@@ -23,7 +23,8 @@
     "react-timeago": "^8.2.0",
     "react-tweet": "^3.2.2",
     "sanity": "^3.87.1",
-    "styled-components": "^6.1.17"
+    "styled-components": "^6.1.17",
+    "tailwind-scrollbar-hide": "^2.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

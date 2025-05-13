@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import scrollbarHide from "tailwind-scrollbar-hide";
 
 export default {
   content: [
@@ -9,9 +10,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        twitter: '#00ADED',
+        twitter: "#00ADED",
       },
-    }
+    },
   },
-  plugins: []
+  plugins: [scrollbarHide],
 } satisfies Config; 

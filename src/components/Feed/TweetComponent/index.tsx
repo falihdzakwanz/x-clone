@@ -14,6 +14,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { Comment } from "@/types/comment.type";
 import { fetchComments } from "@/utils/fetchComments";
+import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 interface Props {
   tweet: Tweet;
@@ -21,6 +23,9 @@ interface Props {
 
 const TweetComponent = ({ tweet }: Props) => {
   const [comments, setComments] = useState<Comment[]>([]);
+  const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
+  const [input, setInput] = useState<string>("");
+  const { data: session } = useSession();
 
   useEffect(() => {
     const refreshComments = async () => {
@@ -30,6 +35,50 @@ const TweetComponent = ({ tweet }: Props) => {
 
     refreshComments();
   }, [tweet._id]);
+
+  const postComment = async () => {
+    if (!input.trim() || !session) return;
+
+    const loadingToast = toast.loading("Posting reply...");
+
+    const commentData = {
+      comment: input,
+      tweetId: tweet._id,
+      username: session.user?.name || "Anonymous",
+      profileImg: session.user?.image || "https://links.papareact.com/gll",
+    };
+
+    try {
+      const response = await fetch("/api/comments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(commentData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to post reply");
+      }
+
+      toast.success("Reply posted!", { id: loadingToast });
+      setCommentBoxVisible(false);
+      setInput("");
+
+      // Refresh comments
+      const comments: Comment[] = await fetchComments(tweet._id);
+      setComments(comments);
+    } catch (error) {
+      console.error("Error posting reply:", error);
+      toast.error("Failed to post reply", { id: loadingToast });
+    }
+  };
+  
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    postComment();
+  }
 
   return (
     <div className="flex flex-col space-x-3 border-y border-gray-100 p-5">
@@ -67,7 +116,10 @@ const TweetComponent = ({ tweet }: Props) => {
       </div>
 
       <div className="flex justify-between mt-5">
-        <div className="flex cursor-pointer space-x-3 items-center text-gray-400">
+        <div
+          onClick={() => session && setCommentBoxVisible(!commentBoxVisible)}
+          className="flex cursor-pointer space-x-3 items-center text-gray-400"
+        >
           <ChatBubbleOvalLeftIcon className="h-5 w-5" />
           <p>{comments.length}</p>
         </div>
@@ -94,6 +146,25 @@ const TweetComponent = ({ tweet }: Props) => {
       </div>
 
       {/* Comments bar logic */}
+      {commentBoxVisible && (
+        <form onSubmit={handleSubmit} className="mt-3 flex space-x-3">
+          <input
+            type="text"
+            placeholder="Post your reply"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="flex-1 rounded-lg bg-gray-100 p-2 outline-none"
+          />
+          <button
+            disabled={!input}
+            type="submit"
+            className="text-twitter disabled:text-gray-200"
+          >
+            Reply
+          </button>
+        </form>
+      )}
+
       {comments.length > 0 && (
         <div className="my-2 mt-5 max-h-44 space-y-5 overflow-y-scroll border-t border-gray-100 p-5">
           {comments.map((comment) => (
