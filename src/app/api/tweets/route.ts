@@ -28,7 +28,7 @@ export async function GET() {
     return NextResponse.json(
       {
         success: false,
-        error: "Failed to fetch tweets",
+        error: error instanceof Error ? error.message : String(error),
       },
       { status: 500 }
     );
